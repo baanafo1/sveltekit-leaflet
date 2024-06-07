@@ -1,18 +1,36 @@
 <script lang="ts">
 	import '../app.css';
-	import type { LatLngExpression } from 'leaflet';
+	import L, { type LatLngExpression, Map as LeafletMap } from 'leaflet';
+	import 'leaflet/dist/leaflet.css';
 	import Leaflet from '$lib/Leaflet.svelte';
 	import Marker from '$lib/Marker.svelte';
 	import Popup from '$lib/Popup.svelte';
+	import Building from '$lib/Building.svelte';
 
-	const initialView: LatLngExpression = [51.514244, 7.468429]; // Dortmund, Germany
-	const markerLocations: Array<LatLngExpression> = [
-		[51.513870009926, 7.473969975241] // ShipBit Office
-	];
+	export let data;
+
+	const featureClass = data.buildings;
+
+	const latLngUsingForEach: any = [];
+	featureClass.forEach((feature: any) => {
+		const transformedFeature = feature.geometry.coordinates.map((ring: any) =>
+			ring.map((coord: any) => [coord[1], coord[0]])
+		);
+		latLngUsingForEach.push(transformedFeature);
+	});
+
+	const initialView: LatLngExpression = [6.6745, -1.5716];
+	const markerLocations: Array<LatLngExpression> = [[6.6745, -1.5716]];
 </script>
 
 <div class="w-full h-screen">
-	<Leaflet view={initialView} zoom={14}>
+	<Leaflet view={initialView} zoom={16}>
+		{#each latLngUsingForEach as building}
+			<Building latLngs={building}>
+				<Popup><div>{featureClass.name}</div></Popup>
+			</Building>
+		{/each}
+
 		{#each markerLocations as latLng}
 			<Marker {latLng} width={40} height={40}>
 				<!-- ShipBit Icon -->
@@ -29,9 +47,7 @@
 					/>
 				</svg>
 
-				<Popup
-					>Like & Subscribe! This is a very loooooooooooong title and it has many characters.</Popup
-				>
+				<Popup>KNUST</Popup>
 			</Marker>
 		{/each}
 	</Leaflet>
