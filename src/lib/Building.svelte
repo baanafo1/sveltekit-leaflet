@@ -27,3 +27,9 @@
     polygon = undefined;
   });
 </script>
+
+<div>
+  {#if polygon}
+    <slot />
+  {/if}
+</div>

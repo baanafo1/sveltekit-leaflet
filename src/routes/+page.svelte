@@ -11,12 +11,13 @@
 
 	const featureClass = data.buildings;
 
-	const latLngUsingForEach: any = [];
+	const buildingLatLng: any = [];
+
 	featureClass.forEach((feature: any) => {
-		const transformedFeature = feature.geometry.coordinates.map((ring: any) =>
+		const latLng = feature.geometry.coordinates.map((ring: any) =>
 			ring.map((coord: any) => [coord[1], coord[0]])
 		);
-		latLngUsingForEach.push(transformedFeature);
+		buildingLatLng.push(latLng);
 	});
 
 	const initialView: LatLngExpression = [6.6745, -1.5716];
@@ -25,9 +26,9 @@
 
 <div class="w-full h-screen">
 	<Leaflet view={initialView} zoom={16}>
-		{#each latLngUsingForEach as building}
+		{#each buildingLatLng as building, i}
 			<Building latLngs={building}>
-				<Popup><div>{featureClass.name}</div></Popup>
+				<Popup>{featureClass[i].properties.Name}</Popup>
 			</Building>
 		{/each}
 
