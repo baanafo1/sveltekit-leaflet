@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../app.css';
-	import L, { type LatLngExpression, Map as LeafletMap } from 'leaflet';
+	import L, { type LatLngExpression } from 'leaflet';
 	import 'leaflet/dist/leaflet.css';
 	import Leaflet from '$lib/Leaflet.svelte';
 	import Popup from '$lib/Popup.svelte';
@@ -10,10 +10,10 @@
 
 	const featureClass = data.buildings;
 
-	const buildingLatLng: any = [];
+	const buildingLatLng: Array<Array<LatLngExpression>> = [];
 
 	featureClass.forEach((feature: any) => {
-		const latLng = feature.geometry.coordinates.map((ring: any) =>
+		const latLng: L.LatLngExpression[] = feature.geometry.coordinates.map((ring: any) =>
 			ring.map((coord: any) => [coord[1], coord[0]])
 		);
 		buildingLatLng.push(latLng);
