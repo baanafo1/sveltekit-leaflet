@@ -1,80 +1,80 @@
 <script>
 	export let position = 'bottomleft';
-  </script>
-  
-  <style>
-.legend {
-	position: absolute;
-    font-size: 16px;
-    line-height: 24px;
-    color: #333333;
-    font-family: 'Open Sans', Helvetica, sans-serif;
-    padding: 10px 14px;
-    background-color: rgba(245,245,220,0.8) ;
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    border-radius: 5px;
-    max-width: 250px;
-    border: 1px solid grey;
-    padding: 10px;
-    line-height: 1.5;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    z-index: 1000;
-}
+</script>
 
-/* this line syles the paragraph element in the legend */
-.legend p {
-  font-size: 16px;
-  line-height: 24px;
-}
+<div class="legend {position}">
+	<p><b>Legend</b></p>
+	<p>Color<span class="spacer"></span>Status:</p>
+	<hr class="hr-line" />
 
-/* this line styles the img element in the legend */
-.legend img {
-  max-width: 200px;
-  margin: auto;
-  display: block;
-}
-
-.legend ul {
-    list-style-type: none;
-    padding: 0;
-  }
-
-  .legend li {
-    margin: 5px 0;
-  }
-
-  .bottomleft {
-    bottom: 10px;
-    left: 10px;
-  }
-
-  .bottomright {
-    bottom: 10px;
-    right: 10px;
-  }
-
-  .topleft {
-    top: 10px;
-    left: 10px;
-  }
-
-  .topright {
-    top: 10px;
-    right: 10px;
-  }
-
-  </style>
-  
-  <div class="legend {position}">
-	<p><b>Color Scheme Legend</b></p>
-	<hr>
-	<p>This map uses the following color scheme:</p>
 	<ul>
-	  <li style="color: red;">Red - Indicates Defaulters</li>
-	  <li style="color: blue;">Blue - Indicates Compliant</li>
+		<li><span class="legend-color" style="background-color: green;"></span> Compliant</li>
+		<li><span class="legend-color" style="background-color: red;"></span> Defaulters</li>
 	</ul>
 	Created with the Leaflet library
-	<img src='$lib/leaflet.png' alt="Leaflet Logo">
-  </div>
-  
+	<img src="/leaflet.png" alt="Leaflet Logo" />
+</div>
+
+<style>
+	.legend {
+		padding: 6px 8px;
+		background-color: rgba(255, 255, 255, 0.8);
+		box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+		border-radius: 5px;
+		position: absolute;
+		font-size: 16px;
+		font-family: 'Open Sans', Helvetica, sans-serif;
+		max-width: 250px;
+		border: 1px solid grey;
+		line-height: 1.5;
+		z-index: 1000;
+	}
+
+	.legend p {
+		font-size: 16px;
+		line-height: 24px;
+	}
+
+	.legend img {
+		max-width: 200px;
+		margin: auto;
+		display: block;
+	}
+	.leaflet-popup-content-wrapper {
+		text-align: center;
+		background-color: rgb(255, 255, 255) !important;
+	}
+	.legend ul {
+		list-style-type: none;
+		padding: 0;
+	}
+
+	.legend li {
+		margin: 5px 0;
+	}
+
+	.legend-color {
+		display: inline-block;
+		width: 35px;
+		height: 20px;
+		margin-right: 45px;
+		vertical-align: middle;
+		border: 1px solid #ccc;
+	}
+
+	.hr-line {
+		border: none;
+		height: 1px;
+		background-color: #ccc;
+		margin: 6px 0;
+	}
+	.spacer {
+		display: inline-block;
+		width: 45px;
+	}
+
+	.bottomleft {
+		bottom: 10px;
+		left: 10px;
+	}
+</style>

@@ -1,0 +1,29 @@
+.leaflet-control-layers {
+	background-color: #ffffff; /* Background color */
+	border-radius: 4px; /* Rounded corners */
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+	padding: 10px; /* Padding inside the control */
+	max-width: 300px; /* Max width of the control */
+	font-family: Arial, sans-serif; /* Font family */
+	font-size: 14px; /* Font size */
+}
+
+.leaflet-control-layers-list {
+	list-style: none; /* Remove default list styles */
+	margin: 0; /* Remove default margin */
+	padding: 0; /* Remove default padding */
+}
+
+.leaflet-control-layers-label {
+	margin-left: 8px; /* Adjust spacing between checkbox and label */
+}
+
+/* Global styles or specific to layout */
+body,
+html {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	/* overflow: hidden; Prevent scrolling */
+}
+

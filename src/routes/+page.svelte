@@ -5,6 +5,7 @@
 	import Leaflet from '$lib/Leaflet.svelte';
 	import LayerGroup from '$lib/LayerGroup.svelte';
 	import Legend from '$lib/Legend.svelte';
+	import '../styles/styles.css';
 
 
 	let hybridImage = 'http://{s}.google.com/vt?lyrs=s,h&x={x}&y={y}&z={z}';
@@ -16,7 +17,7 @@
 	
 </script>
 
-<div class="w-full h-screen">
+<div class="w-full-h-screen">
 	<Leaflet
 		view={initialView}
 		zoom={20}
@@ -29,3 +30,9 @@
 	<LayerGroup/>
 	</Leaflet>
 </div>
+
+<style>
+	.w-full-h-screen {
+		min-height: 80vh;
+	}
+</style>

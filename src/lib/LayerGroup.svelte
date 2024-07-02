@@ -1,9 +1,8 @@
 <script lang="ts">
 	import L, { type LatLngExpression } from 'leaflet';
 	import { getContext, onMount, onDestroy } from 'svelte';
-	import { myDataStore } from './data/BuildingData';
+	import { myDataStore } from '../api/BuildingData';
 	import { get } from 'svelte/store';
-	import '../lib/style/styles.css';
 
 	type StoreDetails = {
 		latLngs: Array<LatLngExpression>;

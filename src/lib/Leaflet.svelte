@@ -106,17 +106,13 @@
 </script>
 
 
-<!-- <style>
-	.leaflet-control-layers-expanded {
-		font-size: 18px; /* Increase font size */
+<style>
+	.w-full-h-full {
+		min-height: 88vh;
 	}
-	.leaflet-control-layers-toggle {
-		width: 40px; /* Increase width */
-		height: 40px; /* Increase height */
-	}
-</style> -->
+</style>
 
-<div class="w-full h-full" bind:this={mapElement}>
+<div class="w-full-h-full" bind:this={mapElement}>
 	{#if map}
 		<slot />
 	{/if}
