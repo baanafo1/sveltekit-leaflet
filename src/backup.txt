@@ -20,3 +20,163 @@
 
 
 THE ABOVE IS USED TO ADD A MARKER
+
+
+<script lang="ts">
+	import L, { type LatLngExpression } from 'leaflet';
+	import { getContext, onMount, setContext } from 'svelte';
+	import { onDestroy } from 'svelte';
+	import '../lib/style/styles.css';
+
+	export let data;
+
+	// Initialize layerGroup
+	let layerGroup: L.LayerGroup;
+	let map: L.Map | undefined;
+
+	// Process building data to extract coordinates
+    const buildingLatLng: Array<{ latLngs: Array<LatLngExpression>;  name: string; color: string }>= [];
+
+	data.forEach((feature: any) => {
+		const latLng: L.LatLngExpression[] = feature.geometry.coordinates.map((ring: any) =>
+			ring.map((coord: any) => [coord[1], coord[0]])
+		);
+		const color = feature.properties.Number_of_ % 2 === 0 ? 'green' : 'red';
+		const name = feature.properties.Name;
+		buildingProps.push({ latLngs: latLng, color: color, name: name });
+	});
+
+	const { getMap }: { getMap: () => L.Map | undefined } = getContext('map');
+	const { getBaseMaps }: { getBaseMaps: () => Record<string, L.TileLayer> } =
+		getContext('baseMaps');
+	map = getMap();
+
+	const baseMaps = getBaseMaps();
+
+
+	// setContext('layer', {
+	//   getLayer: () => layerGroup
+	// });
+
+	onMount(() => {
+		if (map) {
+			// Initialize the layerGroup
+			layerGroup = L.layerGroup().addTo(map);
+
+			// Add polygons to the layerGroup
+			buildingProps.forEach(({ latLngs, color, name }) => {
+				const polygon = L.polygon(latLngs, {
+					color: color, // Dynamic color based on properties
+					fillOpacity: 0.8 // Fixed fill opacity
+				}).addTo(layerGroup);
+
+				polygon.bindPopup(name);
+			});
+			L.control.layers(baseMaps, { Buildings: layerGroup }).addTo(map);
+		}
+	});
+
+	onDestroy(() => {
+		layerGroup?.remove();
+	});
+</script>
+
+<div>
+	{#if layerGroup}
+		<slot />
+	{/if}
+</div>
+
+--------------------------------------------------------------------------------------------------------
+
+
+	  <!-- Render each building based on myDataStore
+	  {#each $myDataStore as building (building.id)}
+		<Building color={building.color} latLngs={building.latLngs} opacity={0.5}>
+		  <Popup>{building.name}</Popup>
+		</Building>
+	  {/each} -->
+
+
+
+	--------------------------for mounting the layerGroup-----------------------------------------------
+	// 	export let myDataStore = writable([]);
+
+	// const fetchBuildings = async () => {
+	//     console.log("Triggering data fetch...");
+	//     try {
+	//         const response = await fetch('http://localhost:8080/buildings'); // Replace with your actual API endpoint
+	//         if (response.ok) {
+	//             const newData = await response.json();
+	//             myDataStore.set(newData); // Update the writable store
+	//         } else {
+	//             console.error('Failed to fetch buildings:', response.statusText);
+	//         }
+	//     } catch (error) {
+	//         console.error('Error fetching buildings:', error);
+	//     }
+	// };
+
+	// onMount(() => {
+	//     // Fetch data immediately
+	//     fetchBuildings();
+
+	//     // Set up interval to fetch data every 5 seconds
+	//     const interval = setInterval(fetchBuildings, 5000);
+
+	//     // Subscribe to myDataStore for updates
+	//     const unsubscribe = myDataStore.subscribe(value => {
+	//         // Handle updates or initial data state
+	//         console.log("Updated data:", value);
+	//     });
+
+	//     // Clean up interval and subscription on component destroy
+	//     return () => {
+	//         clearInterval(interval); // Clear interval
+	//         unsubscribe(); // Unsubscribe from myDataStore
+	//     };
+	// });
+
+	-------------------------------------------------------------------
+
+
+		// ------------------------SENARIO 1 to fetch data from database--------------------------------
+
+	const updateMyData = () => {
+		let myData = data.prop.database;
+		// console.log(myData)
+
+		return {
+			myData
+		};
+	};
+
+
+	onMount(() => {
+			// updateMyData();
+	const interval = setInterval(updateMyData, 5000);
+
+	return () => clearInterval(interval);
+	})
+
+	// -----------------------------------------------------------------
+
+
+
+
+	// console.log(myData)
+
+	// myData.forEach((feature: any,) => {
+	// 	const parsedData = JSON.parse(feature.geom.String)
+	// 	const name  = feature.name.String
+	// 	const color = feature.number_of_floors.Int64 % 2 === 0 ? 'green' : 'red'
+	// 	buildingLatLng.push({latLngs: parsedData, name: name, color: color});
+	// });
+
+	// let latlong: Array<LatLngExpression[]> = []
+	// buildingLatLng.forEach((feature: any) => {
+	// 	const coordinatesss: L.LatLngExpression[] = feature.latLngs.coordinates[0].map((ring: any) =>
+	// 		ring.map((coord: any) => [coord[1], coord[0]])
+	// 	);
+	// 	latlong.push(coordinatesss)
+	// })

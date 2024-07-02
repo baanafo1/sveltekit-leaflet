@@ -3,37 +3,29 @@
 	import L, { type LatLngExpression } from 'leaflet';
 	import 'leaflet/dist/leaflet.css';
 	import Leaflet from '$lib/Leaflet.svelte';
-	import Popup from '$lib/Popup.svelte';
-	import Building from '$lib/Building.svelte';
+	import LayerGroup from '$lib/LayerGroup.svelte';
+	import Legend from '$lib/Legend.svelte';
 
-	export let data;
 
-	const featureClass = data.buildings;
+	let hybridImage = 'http://{s}.google.com/vt?lyrs=s,h&x={x}&y={y}&z={z}';
+	let osm = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+	let noBackground = '';
+	let Tile = 'http://localhost:8000/{z}/{x}/{y}.png'
 
-	const buildingLatLng: Array<Array<LatLngExpression>> = [];
-
-	featureClass.forEach((feature: any) => {
-		const latLng: L.LatLngExpression[] = feature.geometry.coordinates.map((ring: any) =>
-			ring.map((coord: any) => [coord[1], coord[0]])
-		);
-		buildingLatLng.push(latLng);
-	});
-
-	const initialView: LatLngExpression = [6.669, -1.5681];
-	const markerLocations: Array<LatLngExpression> = [[6.6745, -1.5716]];
+	const initialView: LatLngExpression = [6.666962467939364, -1.5671130831231543];
+	
 </script>
 
 <div class="w-full h-screen">
-	<Leaflet view={initialView} zoom={16}>
-		{#each buildingLatLng as buildingCoordinates, index}
-			<Building
-				latLngs={buildingCoordinates}
-				color={featureClass[index].properties.Number_of_ % 2 === 0 ? 'green' : 'red'}
-				opacity={0.2}
-			>
-				<Popup>{featureClass[index].properties.Name}</Popup>
-			</Building>
-		{/each}
+	<Leaflet
+		view={initialView}
+		zoom={20}
+		defaultLayerUrl={osm}
+		optionalLayerUrl={hybridImage}
+		noLayerUrl={noBackground}
+		overlayLayerUrl={Tile}
+	>
+	<Legend position="bottomleft" />
+	<LayerGroup/>
 	</Leaflet>
-
 </div>

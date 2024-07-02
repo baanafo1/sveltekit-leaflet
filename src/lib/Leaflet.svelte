@@ -3,53 +3,99 @@
 	import L from 'leaflet';
 	import 'leaflet/dist/leaflet.css';
 
-	// the next three lines of code declare Leaflet.svelte props
-	export let bounds: L.LatLngBoundsExpression | undefined = undefined;
+	export let bounds: L.LatLngBoundsExpression | undefined = [
+        [6.660765102547523, -1.562855023480884],
+        [6.673159833331206, -1.5713711427654247],
+      ];
 	export let view: L.LatLngExpression | undefined = undefined;
 	export let zoom: number | undefined = undefined;
+	export let defaultLayerUrl: string;
+	export let optionalLayerUrl: string;
+	export let noLayerUrl: string;
+	export let overlayLayerUrl: string;
 
-	// creating an event dispatcher
+	// Create an event dispatcher
 	const dispatch = createEventDispatcher();
 
-	// declaring some local variable an their type annotation
 	let map: L.Map | undefined;
 	let mapElement: HTMLElement;
-
+	let baseMaps: Record<string, L.TileLayer>;
+	let overlayMaps: Record<string, L.TileLayer>; // New variable for overlay maps
 
 	onMount(() => {
-		// we check if the bound and zoom or view props are set, else throw an error
+		// Check if bounds and zoom or view props are set, else throw an error
 		if (!bounds && (!view || !zoom)) {
 			throw new Error('Must set either bounds, or view and zoom.');
 		}
 
 		map = L.map(mapElement)
-			// example to expose map events to parent components:
-			// when the map is zoomed a custom event with the name 'zoom' is dispatched or created
-			// and passed the original leaflet zoom event object to it throught the argument 'e'
+			// Example to expose map events to parent components:
+			// When the map is zoomed a custom event with the name 'zoom' is dispatched or created
+			// and passed the original leaflet zoom event object to it through the argument 'e'
 			.on('zoom', (e) => dispatch('zoom', e))
 			.on('popupopen', async (e) => {
 				await tick();
 				e.popup.update();
 			});
 
-		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-			attribution: `&copy;<a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>`
-		}).addTo(map);
+		// Define tile layers
+		const defaultTile = L.tileLayer(defaultLayerUrl, {
+			maxZoom: 20,
+			attribution: '© OpenStreetMap'
+		});
+
+		const secondaryTile = L.tileLayer(optionalLayerUrl, {
+			minZoom: 0,
+			maxZoom: 20,
+			subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+		});
+
+		const noLayerTile = L.tileLayer(noLayerUrl, {
+			maxZoom: 20,
+			subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+		});
+
+		// Define the overlay layer
+		const overlayTile = L.tileLayer(overlayLayerUrl, {
+			tms: true,
+			opacity: 1.0,
+			attribution: '© OpenStreetMap | Department of Geomatic Eng. KNUST',
+			minZoom: 13,
+			maxZoom: 20
+		});
+
+		baseMaps = {
+			OpenStreetMap: defaultTile,
+			'Hybrid Image': secondaryTile,
+			'Image Overlay': overlayTile,
+			'Background off': noLayerTile
+		};
+
+		overlayMaps = {
+			Layer: overlayTile
+		};
+
+		defaultTile.addTo(map);
+
+		overlayTile.addTo(map);
+
+
 	});
 
-	
-	// the line below is used to remove the Leaflet Map from the browser
-  	// when it components are being destroyed
 	onDestroy(() => {
 		map?.remove();
 		map = undefined;
 	});
 
-	// This sets getMap i.e the only property which is a function that returns a map or L.map
 	setContext('map', {
 		getMap: () => map
 	});
 
+	setContext('baseMaps', {
+		getBaseMaps: () => baseMaps
+	});
+
+	// Update map view based on bounds or view and zoom props
 	$: if (map) {
 		if (bounds) {
 			map.fitBounds(bounds);
@@ -58,6 +104,17 @@
 		}
 	}
 </script>
+
+
+<!-- <style>
+	.leaflet-control-layers-expanded {
+		font-size: 18px; /* Increase font size */
+	}
+	.leaflet-control-layers-toggle {
+		width: 40px; /* Increase width */
+		height: 40px; /* Increase height */
+	}
+</style> -->
 
 <div class="w-full h-full" bind:this={mapElement}>
 	{#if map}

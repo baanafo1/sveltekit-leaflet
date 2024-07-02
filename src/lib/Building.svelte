@@ -3,6 +3,7 @@
   import L from 'leaflet';
 
 
+
   // the next three lines of code declare Building.svelte props
   export let latLngs: L.LatLngExpression[];
   export let color: string;
