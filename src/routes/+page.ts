@@ -1,6 +1,7 @@
 export const ssr = false;
 
 
+
 // export const load = async (loadserverEvent) => {
 //     // console.log("Fetching data from API...");
 

@@ -9,7 +9,7 @@
 
 	<ul>
 		<li><span class="legend-color" style="background-color: green;"></span> Compliant</li>
-		<li><span class="legend-color" style="background-color: red;"></span> Defaulters</li>
+		<li><span class="legend-color" style="background-color: red;"></span> Defaulter</li>
 	</ul>
 	Created with the Leaflet library
 	<img src="/leaflet.png" alt="Leaflet Logo" />
@@ -24,7 +24,7 @@
 		position: absolute;
 		font-size: 16px;
 		font-family: 'Open Sans', Helvetica, sans-serif;
-		max-width: 250px;
+		max-width: 200px;
 		border: 1px solid grey;
 		line-height: 1.5;
 		z-index: 1000;
@@ -36,7 +36,7 @@
 	}
 
 	.legend img {
-		max-width: 200px;
+		max-width: 100%;
 		margin: auto;
 		display: block;
 	}
@@ -51,6 +51,8 @@
 
 	.legend li {
 		margin: 5px 0;
+		display: flex;
+		align-items: center;
 	}
 
 	.legend-color {
@@ -59,7 +61,8 @@
 		height: 20px;
 		margin-right: 45px;
 		vertical-align: middle;
-		border: 1px solid #ccc;
+    	border: 1px solid #ccc;
+    	background-color: #eee;
 	}
 
 	.hr-line {
@@ -76,5 +79,6 @@
 	.bottomleft {
 		bottom: 10px;
 		left: 10px;
+		position: absolute;
 	}
 </style>

@@ -5,6 +5,9 @@
 	import Leaflet from '$lib/Leaflet.svelte';
 	import LayerGroup from '$lib/LayerGroup.svelte';
 	import Legend from '$lib/Legend.svelte';
+	import SearchButton from '../layout/SearchButton.svelte';
+	import LayerSidebar from '../layout/LayerSidebar.svelte';
+	// import Test from '../layout/test.svelte';
 	import '../styles/styles.css';
 
 
@@ -26,13 +29,16 @@
 		noLayerUrl={noBackground}
 		overlayLayerUrl={Tile}
 	>
+	<SearchButton />
 	<Legend position="bottomleft" />
 	<LayerGroup/>
+	<!-- <Test /> -->
+	<!-- <LayerSidebar /> -->
 	</Leaflet>
 </div>
 
-<style>
+<!-- <style>
 	.w-full-h-screen {
-		min-height: 80vh;
+		height: 100%;
 	}
-</style>
+</style> -->

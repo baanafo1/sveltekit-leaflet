@@ -1,30 +1,35 @@
 <script>
+	import 'leaflet/dist/leaflet.css';
 	let currentYear = new Date().getFullYear();
 </script>
 
 <div class="main">
-	<header>
-		<div class="container">
-			<div id="branding">
-				<h1>Revenue Mobilization Tracker</h1>
+	<div id="header">
+		<header>
+			<div class="container">
+				<div id="branding">
+					<h1>Revenue Mobilization Tracker</h1>
+				</div>
+				<nav>
+					<ul>
+						<li><a href="/">Home</a></li>
+						<li><a href="/about">About</a></li>
+						<li><a href="#mission">Mission</a></li>
+					</ul>
+				</nav>
 			</div>
-			<nav>
-				<ul>
-					<li><a href="#about">About Us</a></li>
-					<li><a href="#mission">Our Mission</a></li>
-					<li><a href="#contact">Contact</a></li>
-				</ul>
-			</nav>
-		</div>
-	</header>
+		</header>
+	</div>
 
-	<div class="content">
+	<div class="map-content">
 		<slot />
 	</div>
 
-	<footer>
-		<p>&copy; {currentYear} Geomatic Engineering- KNUST</p>
-	</footer>
+	<div id="footer">
+		<footer>
+			<p>&copy; {currentYear} Geomatic Engineering- KNUST</p>
+		</footer>
+	</div>
 </div>
 
 <style>
@@ -32,25 +37,23 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		width: 100%; 
 		max-width: 100%;
-		margin: auto;
-		overflow: hidden;
+		margin: 0;
 	}
 
 	header {
 		background: #35424a;
 		color: #ffffff;
-		padding: 16.5px 0;
+		padding: 10px 0;
 		border-bottom: #e8491d 3px solid;
-		width: 100%; 
+		width: 100%;
 	}
 
 	header a {
 		color: #ffffff;
 		text-decoration: none;
 		text-transform: uppercase;
-		font-size: 16px;
+		font-size: 14px;
 	}
 
 	header ul {
@@ -66,35 +69,51 @@
 	}
 
 	header #branding {
-		margin-right: auto; 
+		margin-right: 0;
 	}
 
 	header #branding h1 {
-		margin: 0;
-		padding-left: 15px;
+		font-family: sans-serif; /* Change font family if desired */
+		font-size: 18px; /* Adjust font size */
+		padding-left: 10px;
+		margin: 0; /* Remove default margins */
+		text-align: center; /* Center the text horizontally */
 	}
 
 	nav {
-		margin-left: auto; 
 		padding-right: 20px;
-    }
-
-	.main {
-		min-height: 80vh; 
-		display: flex;
-		flex-direction: column;
 	}
 
-	.content {
-		flex: 1; 
-		overflow-y: auto; 
+	.main {
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+		overflow: 0;
+	}
+
+	.map-content {
+		position: relative;
+		flex: 1;
+		width: 100%;
+		height: 100%;
 	}
 
 	footer {
 		background: #35424a;
 		color: #ffffff;
 		text-align: center;
-		padding: 16.5px 0;
-		width: 100%; 
+		padding: 8px 0;
+		width: 100%;
+		border-top: #e8491d 3px solid;
+		position: relative;
+		box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+		transition:
+			background 0.3s,
+			box-shadow 0.3s;
+	}
+
+	footer:hover {
+		background: #2c3e50;
+		box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.7);
 	}
 </style>

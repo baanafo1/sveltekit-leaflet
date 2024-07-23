@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount, onDestroy, setContext, createEventDispatcher, tick } from 'svelte';
 	import L from 'leaflet';
-	import 'leaflet/dist/leaflet.css';
+	// import 'leaflet/dist/leaflet.css';
 
 	export let bounds: L.LatLngBoundsExpression | undefined = [
         [6.660765102547523, -1.562855023480884],
@@ -21,6 +21,11 @@
 	let mapElement: HTMLElement;
 	let baseMaps: Record<string, L.TileLayer>;
 	let overlayMaps: Record<string, L.TileLayer>; // New variable for overlay maps
+
+
+	let headerHeight: number = 0;
+	let footerHeight: number = 0;
+	let mapHeight: number;
 
 	onMount(() => {
 		// Check if bounds and zoom or view props are set, else throw an error
@@ -79,6 +84,19 @@
 
 		overlayTile.addTo(map);
 
+		const headerElement = document.getElementById('header');
+		if (headerElement) {
+			headerHeight = headerElement.offsetHeight;
+		}
+
+		const footerElement = document.getElementById('footer');
+		if (footerElement) {
+			footerHeight = footerElement.offsetHeight;
+		}
+
+		// Calculate and store map height in context
+		mapHeight = window.innerHeight - headerHeight - footerHeight;
+		mapElement.style.height = `${mapHeight}px`;
 
 	});
 
@@ -106,14 +124,9 @@
 </script>
 
 
-<style>
-	.w-full-h-full {
-		min-height: 88vh;
-	}
-</style>
-
 <div class="w-full-h-full" bind:this={mapElement}>
-	{#if map}
-		<slot />
-	{/if}
+    {#if map}
+        <slot />
+    {/if}
 </div>
+

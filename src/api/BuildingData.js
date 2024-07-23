@@ -4,7 +4,7 @@ export let myDataStore = writable([]);
 
 const fetchBuildings = async () => {
 	try {
-		const response = await fetch('http://localhost:8080/buildings'); 
+		const response = await fetch('http://localhost:3000/buildings'); 
 		if (response.ok) {
 			const newData = await response.json();
 			myDataStore.set(newData); 
@@ -17,4 +17,4 @@ const fetchBuildings = async () => {
 };
 fetchBuildings();
 
-const interval = setInterval(fetchBuildings, 5000);
+setInterval(fetchBuildings, 5000);

@@ -1,3 +1,239 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* .leaflet-control-layers:hover .leaflet-control-layers-list {
+    display: none; /* Ensure the list does not display on hover */
+/* } */ */
+
+/* .leaflet-control {
+    position: relative;
+    z-index: 800;
+    pointer-events: visiblePainted;
+    pointer-events: auto;
+} */
+.leaflet-control-scale-line {
+	margin-left: 260px; /* Adjusted margin for better placement */
+	margin-bottom: 5px; /* Added bottom margin to position it well */
+	font-weight: bold; /* Bold text */
+	color: #333; /* Darker color for text */
+	background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+	border: 1px solid #ddd; /* Light border */
+	padding: 5px 10px; /* Padding around the text, more space on the sides */
+	border-radius: 5px; /* Rounded corners */
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); /* Subtle text shadow for better readability */
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Added box shadow for a more modern look */
+	font-size: 14px; /* Slightly larger font for better readability */
+	line-height: 1.5; /* Better line height */
+	transition:
+		background-color 0.3s,
+		color 0.3s; /* Smooth transition for background and color changes */
+}
+
+.leaflet-control-scale-line:hover {
+	background-color: rgba(255, 255, 255, 1); /* Solid background on hover */
+	color: #000; /* Darker text color on hover */
+}
+
+/* .leaflet-control-layers-toggle {
+    font-size: 14px; 
+    font-weight: bold; 
+    color: #333; 
+    background-color: rgba(255, 255, 255, 0.8); 
+    border: 1px solid #ddd;
+    padding: 5px 10px; 
+    border-radius: 5px; 
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); 
+    transition: background-color 0.3s, color 0.3s; 
+    cursor: pointer; 
+}
+
+.leaflet-control-layers-toggle:hover {
+    background-color: rgba(255, 255, 255, 1); 
+    color: #000; 
+} */
+
+/* .leaflet-control-layers.leaflet-control {
+    font-size: 14px; 
+    font-weight: normal; 
+    color: #333; 
+    background-color: rgba(255, 255, 255, 0.9); 
+    border: 1px solid #ccc; 
+    padding: 10px; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); 
+    transition: background-color 0.3s, color 0.3s; 
+    margin: 10px; 
+}
+
+.leaflet-control-layers.leaflet-control:hover {
+    background-color: rgba(255, 255, 255, 1); 
+    color: #000; 
+} */
+/* .leaflet-right .leaflet-control {
+    float: right;
+  } */
+
+.leaflet-control {
+	cursor: auto;
+}
+
+/* .leaflet-top .leaflet-control {
+    margin-right: 0px !important;
+    margin-top: 0px !important;
+  } */
+
+  
+.leaflet-control {
+	float: left;
+	clear: both;
+}
+.leaflet-control {
+	position: relative;
+	z-index: 800;
+	pointer-events: visiblePainted;
+	pointer-events: auto;
+}
+
+.leaflet-top.leaflet-right {
+	height: 100%;
+	-moz-column-gap: 10px;
+	column-gap: 10px;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap-reverse;
+}
+
+.leaflet-control-layers.leaflet-control {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 0;
+	margin-right: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.leaflet-control-zoom.leaflet-bar.leaflet-control {
+	border: none;
+	display: absolute;
+	justify-content: center;
+	align-items: center;
+	margin: 0;
+}
+
+.leaflet-control-zoom-in {
+	border: 2px solid rgba(0, 0, 0, 0.2);
+	background-clip: padding-box;
+	display: flex; /* This enables Flexbox */
+	justify-content: center; /* Centers content horizontally */
+	align-items: center; /* Centers content vertically */
+	width: 44px;
+	height: 44px;
+}
+
+.leaflet-control-zoom-out {
+	border: 2px solid rgba(0, 0, 0, 0.2);
+	background-clip: padding-box;
+	display: relative;
+	justify-content: center;
+	align-items: center;
+	/* margin: 10px;
+    padding: 10px; */
+	width: 44px;
+	height: 44px;
+}
+
+.leaflet-control-zoom a {
+    display: flex; /* Enables Flexbox */
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+    width: 44px;
+    height: 44px;
+    text-decoration: none; /* Removes underline */
+}
+
+.leaflet-control-zoom a span {
+    display: inline-block; /* Ensures span behaves as a block for centering */
+}
+.leaflet-touch .leaflet-bar a {
+	justify-content: center;
+	align-items: center;
+	width: 58px;
+	height: 52px;
+	line-height: 30px;
+}
+
+.leaflet-top.leaflet-left {
+	position: absolute;
+	top: 100%;
+}
+
+/* .leaflet-touch.leaflet-control-layers-toggle {
+	margin: 10px;
+	padding: 10px;
+    width: 44px;
+    height: 44px;
+  } */
+
+.leaflet-touch .leaflet-control-layers-toggle {
+	margin: 10px;
+	padding: 10px;
+	width: 34px;
+	height: 34px;
+}
+
+body {
+	font-family: Arial, sans-serif;
+	line-height: 1.6;
+	margin: 0;
+	padding: 0;
+	background-color: #f4f4f4;
+	color: #333;
+}
+
+hr {
+	display: block; /* Ensure it acts as a block-level element */
+	height: 1px; /* Set a small height for the line */
+	margin: 1rem 0; /* Add some margin for spacing (optional) */
+	border: none; /* Remove default border styles */
+	border-top: 1px dotted grey; /* Add a dotted border to the top */
+	border-width: 50%;
+	width: 50%; /* Set the width (adjust as needed) */
+	margin-left: auto; /* Center the element horizontally */
+	margin-right: auto; /* Center the element horizontally */
+}
+.team {
+	display: flex; /* Arrange team members horizontally */
+	flex-wrap: wrap; /* Allow members to wrap to next line if needed */
+	justify-content: space-around; /* Distribute members evenly */
+	margin: 2rem 0; /* Add some margin for spacing */
+}
+
+.team .member {
+	text-align: center; /* Center content within each member div */
+	padding: 1rem; /* Add some padding for spacing */
+	border: 1px solid #ddd; /* Add a thin border */
+	border-style: round;
+	border-radius: 5px; /* Round corners for a nicer look (optional) */
+	margin: 0.5rem; /* Add some margin between members */
+	width: calc(25% - 1rem); /* Calculate width based on number of members (adjust if needed) */
+}
+
+.team .member img {
+	display: block; /* Display images as blocks on their own lines */
+	margin: 0 auto; /* Center images horizontally */
+	width: 100%; /* Set image width to fill the member div */
+	max-height: 300px; /* Set a maximum height for images (optional) */
+	border-radius: 50%; /* Set border-radius to create a circle */
+}
+
+.team .member h3 {
+	margin-bottom: 0.5rem; /* Add some space below headings */
+}
+
+section#about {
+	padding: 20px;
+	background: #e4e4e4;
+}

@@ -1,10 +1,10 @@
 <script lang="ts">
 	import L, { type LatLngExpression } from 'leaflet';
-	import { getContext, onMount, onDestroy } from 'svelte';
+	import { getContext, onMount, onDestroy, setContext } from 'svelte';
 	import { myDataStore } from '../api/BuildingData';
 	import { get } from 'svelte/store';
 
-	type StoreDetails = {
+	type BuildingDetails = {
 		latLngs: Array<LatLngExpression>;
 		name: string;
 		color: string;
@@ -20,25 +20,27 @@
 	let layerGroup: L.LayerGroup | undefined;
 	let controlLayer: L.Control.Layers | undefined;
 	let map: L.Map | undefined;
+	let scaleControl: L.Control.Scale;
 
-	function processStoresData(data: Array<any>) {
-		const storesDetails: Array<StoreDetails> = [];
+	function processBuildingData(data: Array<any>) {
+		const storesDetails: Array<BuildingDetails> = [];
 		data.forEach((feature: any) => {
 			const parsedLatLngs = JSON.parse(feature.geom.String);
 			const name = feature.name.String;
-			const color = feature.number_of_floors.Int64 % 2 === 0 ? 'green' : 'red';
+			const color = feature.has_paid.Bool === true ? 'green' : 'red';
 			storesDetails.push({ latLngs: parsedLatLngs, name: name, color: color });
 		});
 		return storesDetails;
 	}
 
-	function convertLatLngFormat(storesData: Array<StoreDetails>) {
+	function getBuildingLatLngs(storesData: Array<BuildingDetails>) {
 		const buildingLatLngs: Array<BuildingLatLng> = [];
 		storesData.forEach((feature: any) => {
-			const latitudeLongs: L.LatLngExpression[] = feature.latLngs.coordinates[0].map((ring: any) =>
+			// console.log(feature.latLngs.coordinates[0].map((ring: any) => [ring[1], ring[0]]));
+			const latLongPair: L.LatLngExpression[] = feature.latLngs.coordinates[0].map((ring: any) =>
 				ring.map((coord: any) => [coord[1], coord[0]])
 			);
-			buildingLatLngs.push({ latLng: latitudeLongs });
+			buildingLatLngs.push({ latLng: latLongPair });
 		});
 		return buildingLatLngs;
 	}
@@ -46,11 +48,12 @@
 	function initializeLayers(
 		map: L.Map,
 		propertyLatLng: Array<BuildingLatLng>,
-		featureProps: Array<StoreDetails>,
+		featureProps: Array<BuildingDetails>,
 		baseMaps: BaseMaps
 	) {
 		if (layerGroup) {
 			layerGroup.clearLayers();
+			map.removeControl(scaleControl);
 		} else {
 			layerGroup = L.layerGroup().addTo(map);
 		}
@@ -74,6 +77,7 @@
 				'Image Overlay': baseMaps['Image Overlay']
 			})
 			.addTo(map);
+		scaleControl = L.control.scale().addTo(map);
 	}
 
 	const { getMap }: { getMap: () => L.Map | undefined } = getContext('map');
@@ -86,8 +90,8 @@
 
 	onMount(() => {
 		if (map) {
-			const buildingProps = processStoresData(data);
-			const buildingLatLngs = convertLatLngFormat(buildingProps);
+			const buildingProps = processBuildingData(data);
+			const buildingLatLngs = getBuildingLatLngs(buildingProps);
 			initializeLayers(map, buildingLatLngs, buildingProps, baseMaps);
 		}
 	});
@@ -95,18 +99,20 @@
 	onDestroy(() => {
 		layerGroup?.remove();
 		controlLayer?.remove();
+		scaleControl?.remove();
 	});
 
 	$: if (map && $myDataStore) {
 		const updatedData = get(myDataStore);
-		const buildingProps = processStoresData(updatedData);
-		const buildingLatLngs = convertLatLngFormat(buildingProps);
+		const buildingProps = processBuildingData(updatedData);
+		const buildingLatLngs = getBuildingLatLngs(buildingProps);
 		initializeLayers(map, buildingLatLngs, buildingProps, baseMaps);
 	}
 </script>
 
 <div>
 	{#if layerGroup}
+
 		<slot />
 	{/if}
 </div>
